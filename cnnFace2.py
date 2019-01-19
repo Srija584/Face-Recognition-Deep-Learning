@@ -90,77 +90,77 @@ test_data = np.reshape(test_data, (total_test, image_size, image_size))
 print(test_data.shape)
 new_image_size = 128
 
-# for k in range(num_persons):
-#     c1 = k * num_train + 1
-#     c2 = c1 + num_train - 1
-#     print("c1,c2:", c1, c2)
-#     files = glob.glob(data_path_train_f)
-#     data = []
-#     count = 0
-#     for f1 in files:
-#         count = count +1
-#         if c1<=count<=c2:
-#             image = cv2.imread(f1)
-#             img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-#             img = cv2.resize(img, (new_image_size,new_image_size))
-#             #img = np.array(img)
-#             #img = np.reshape(img, (28*28, 1))
-#             data.append(img)
+for k in range(num_persons):
+    c1 = k * num_train + 1
+    c2 = c1 + num_train - 1
+    print("c1,c2:", c1, c2)
+    files = glob.glob(data_path_train_f)
+    data = []
+    count = 0
+    for f1 in files:
+        count = count +1
+        if c1<=count<=c2:
+            image = cv2.imread(f1)
+            img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            img = cv2.resize(img, (new_image_size,new_image_size))
+            #img = np.array(img)
+            #img = np.reshape(img, (28*28, 1))
+            data.append(img)
         
 
-#     train_data = data
-#     train_data = np.array(train_data)   
-#     print(train_data.shape)
-#     train_data = np.reshape(train_data, (num_train, new_image_size, new_image_size))
-#     print(train_data.shape)
+    train_data = data
+    train_data = np.array(train_data)   
+    print(train_data.shape)
+    train_data = np.reshape(train_data, (num_train, new_image_size, new_image_size))
+    print(train_data.shape)
 
 
-#     print("Size of:")
-#     print("- Training-set:\t\t{}".format(len(train_data)))
-#     print("- Test-set:\t{}".format(len(td_random)))
+    print("Size of:")
+    print("- Training-set:\t\t{}".format(len(train_data)))
+    print("- Test-set:\t{}".format(len(td_random)))
 
 
-#     input_img = Input(shape=(image_size, image_size, 1))  # adapt this if using `channels_first` image data format
+    input_img = Input(shape=(image_size, image_size, 1))  # adapt this if using `channels_first` image data format
 
-#     x = Conv2D(8, (3, 3), activation='relu', padding='same')(input_img)
-#     x = MaxPooling2D((2, 2), padding='same')(x)
-#     x = Conv2D(12, (2, 2), activation='relu', padding='same')(x)
-#     x = MaxPooling2D((2, 2), padding='same')(x)
-#     x = Conv2D(1, (5, 5), activation='relu', padding='same')(x)
-#     x = UpSampling2D((2, 2))(x)
-#     x = Conv2D(16, (2, 2), activation='relu', padding='same')(x)
-#     x = UpSampling2D((2, 2))(x)
-#     x = Conv2D(1, (5, 5), activation='relu', padding='same')(x)
-
-
-#     autoencoder = Model(input_img, x)
-#     print(autoencoder.summary())
-#     from tensorflow.python.keras.optimizers import Adam
-#     optimizer = Adam(lr = 1e-3)
-#     autoencoder.compile(keras.optimizers.SGD(lr=0.05), loss='mean_squared_error',
-#     metrics=['accuracy'])
-
-#     train_data = train_data.astype('float32') / 255.
-#     td_random = td_random.astype('float32') / 255.
-#     test_data = test_data.astype('float32') / 255.
-#     train_data = np.reshape(train_data, (len(train_data), new_image_size, new_image_size, 1))  # adapt this if using `channels_first` image data format
-#     td_random = np.reshape(td_random, (len(td_random), image_size, image_size, 1))  # adapt this if using `channels_first` image data format
-#     test_data = np.reshape(test_data, (len(test_data), image_size, image_size, 1))  # adapt this if using `channels_first` image data format
-
-#     from keras.callbacks import TensorBoard
+    x = Conv2D(8, (3, 3), activation='relu', padding='same')(input_img)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    x = Conv2D(12, (2, 2), activation='relu', padding='same')(x)
+    x = MaxPooling2D((2, 2), padding='same')(x)
+    x = Conv2D(1, (5, 5), activation='relu', padding='same')(x)
+    x = UpSampling2D((2, 2))(x)
+    x = Conv2D(16, (2, 2), activation='relu', padding='same')(x)
+    x = UpSampling2D((2, 2))(x)
+    x = Conv2D(1, (5, 5), activation='relu', padding='same')(x)
 
 
-#     autoencoder.fit(td_random, train_data,
-#                         epochs=300,
-#                         batch_size=5,
-#                         shuffle=True,
-#                         )
-#     #     # encode and decode some digits
-#         # note that we take them from the *test* set
+    autoencoder = Model(input_img, x)
+    print(autoencoder.summary())
+    from tensorflow.python.keras.optimizers import Adam
+    optimizer = Adam(lr = 1e-3)
+    autoencoder.compile(keras.optimizers.SGD(lr=0.05), loss='mean_squared_error',
+    metrics=['accuracy'])
 
-#     path_model = '/home/srija/tensorflow/-45Images/models_new/model_new_'+str(k)+'.keras'
+    train_data = train_data.astype('float32') / 255.
+    td_random = td_random.astype('float32') / 255.
+    test_data = test_data.astype('float32') / 255.
+    train_data = np.reshape(train_data, (len(train_data), new_image_size, new_image_size, 1))  # adapt this if using `channels_first` image data format
+    td_random = np.reshape(td_random, (len(td_random), image_size, image_size, 1))  # adapt this if using `channels_first` image data format
+    test_data = np.reshape(test_data, (len(test_data), image_size, image_size, 1))  # adapt this if using `channels_first` image data format
 
-#     autoencoder.save(path_model)
+    from keras.callbacks import TensorBoard
+
+
+    autoencoder.fit(td_random, train_data,
+                        epochs=300,
+                        batch_size=5,
+                        shuffle=True,
+                        )
+    #     # encode and decode some digits
+        # note that we take them from the *test* set
+
+    path_model = '/home/srija/tensorflow/-45Images/models_new/model_new_'+str(k)+'.keras'
+
+    autoencoder.save(path_model)
 
 # for i in range(num_test):
 new_test_num= total_test
@@ -169,7 +169,7 @@ for j in range(num_persons):
     path_model = '/home/srija/tensorflow/-45Images/models_new/model_new_'+str(j)+'.keras'
     model2 = load_model(path_model)
     encoded_image = test_data
-    encoded_image = np.reshape(test_2,(None,new_test_num,image_size,image_size))
+    encoded_image = np.reshape(test_2,(new_test_num,image_size,image_size, 1))
     decoded_image = model2.predict(encoded_image)
 
     img = encoded_image
