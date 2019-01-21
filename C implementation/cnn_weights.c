@@ -19,18 +19,12 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	srand((unsigned)time(NULL));
 	FILE *fp, *f1;
 
-	char file_o[] = "/home/srija/tensorflow/pie_output/models/weights_p";
-	printf("%s\n", file_o);
-	char num[] = "1_45_0.txt";
-	num[0] = ITER+48;
-	printf("%s\n", num);
-	
-	strcat(file_o,num);
-	printf("%s\n", file_o);
+	char buffer[100];
+	sprintf(buffer,"/home/srija/tensorflow/pie_output/models/weights_p%d_45_0.txt",ITER );
 
 	
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
-	fp=fopen(file_o,"w");
+	fp=fopen(buffer,"w");
 	maxi=input[0][0];
 	for(i=0;i<row;i++)
 	for(j=0;j<column;j++)
@@ -144,7 +138,7 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	for(i=0;i<=row+1;i++)
 	{
 		for(j=0;j<=column+1;j++){
-			
+
 		}
 			// printf("%f ",input_new[i][j]);
 		// printf("\n");
@@ -263,7 +257,7 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	
 	//return(FinalWeight);
 	printf("printing final weights\n");
-	printf("%s\n", file_o);
+	
 	for(i=0;i<row*column;i++)
 	{
 		for(j=0;j<20;j++)
@@ -528,17 +522,11 @@ int main(int argc, char *argv[])
 	int i,j,d,f;
 	printf("hello\n");
 	FILE *f1,*f2;
-	char file2[] = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
-	printf("%s\n", file2);
-	char ext[] = "_im0.txt";
-	char num[] = "1_im0.txt";
-	num[0] = ITER+48;
-	printf("%s\n", num);
+	char buffer[100];
+	sprintf(buffer,"/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p%d_im0.txt",ITER );
 	
-	strcat(file2,num);
-	printf("%s\n", file2);
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
-	f2=fopen(file2,"r");
+	f2=fopen(buffer,"r");
 	
 	for(i=0;i<row;i++)
 	{
