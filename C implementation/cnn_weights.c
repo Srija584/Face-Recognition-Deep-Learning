@@ -4,19 +4,26 @@
 #include<time.h>
 int row=80;
 int column=80;
+int ITER;
 
 float *miniCNN(float patch[3][3],int p,float w1[3][4],float w2[4],float w3[3],float bias1);
 float max(float p[]);
 float predict(float patch[3][3],float demo_wt[20]);
 
-void CNN(float input[row][column],float output[row][column],int row,int column)
+void CNN(float input[row][column],float output[row][column],int row,int column, int ITER)
 
 {
 	int i,j,c,d,k,l,index1,index2,count=-1,mn,p_1,p_2,iter,it1,it2,it3,iterations[row*column];
 	float w1[3][4],demo_wt[20],predicted_output[row][column],w11[3][4],w21[4],bias11,maxi,patch[3][3],input_new[row+2][column+2],w3[3];
 	srand((unsigned)time(NULL));
-	FILE *fp;
-	fp=fopen("/home/srija/tensorflow/pie_output/models/weights_p1_45_0.txt","w");
+	FILE *fp, *f1;
+	char *file_o = "/home/srija/tensorflow/pie_output/models/weights_p";
+	char *ext = "_45_0.txt";
+	char *num = (char)ITER;
+	strcat(num,ext);
+	strcat(file_o,num);
+	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
+	fp=fopen(file_o,"w");
 	maxi=input[0][0];
 	for(i=0;i<row;i++)
 	for(j=0;j<column;j++)
@@ -495,16 +502,29 @@ float max(float p[])
 	return m;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	if (argc != 2) 
+        {
+        	printf("Wrong parameters. Usage: ./cnn_prediction [iteration number]\n");
+		return 1;
+	}
+        sscanf(argv[1], "%d", &ITER);
+        printf("ITER : %d\n", ITER);
+
 	float patch_1[3][3],t,input[row][column],output[row][column];
 	time_t tm;
 	srand((unsigned) time(&tm));
 	int i,j,d,f;
 	printf("hello\n");
 	FILE *f1,*f2;
+	char *file2 = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
+	char *ext = "_im0.txt";
+	char *num = (char)ITER;
+	strcat(num,ext);
+	strcat(file2,num);
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
-	f2=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p1_im0.txt","r");
+	f2=fopen(file2,"r");
 	
 	for(i=0;i<row;i++)
 	{
@@ -530,7 +550,7 @@ int main()
 	fclose(f1);
 	fclose(f2);
 
-	CNN(input,output,row,column);
+	CNN(input,output,row,column, ITER);
 	
 }
 		
