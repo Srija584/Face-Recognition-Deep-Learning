@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
+#include<string.h>
 int row=80;
 int column=80;
 int ITER;
@@ -17,11 +18,17 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	float w1[3][4],demo_wt[20],predicted_output[row][column],w11[3][4],w21[4],bias11,maxi,patch[3][3],input_new[row+2][column+2],w3[3];
 	srand((unsigned)time(NULL));
 	FILE *fp, *f1;
-	char *file_o = "/home/srija/tensorflow/pie_output/models/weights_p";
-	char *ext = "_45_0.txt";
-	char *num = ITER - 48;
-	strcat(num,ext);
+
+	char file_o[] = "/home/srija/tensorflow/pie_output/models/weights_p";
+	printf("%s\n", file_o);
+	char num[] = "1_45_0.txt";
+	num[0] = ITER+48;
+	printf("%s\n", num);
+	
 	strcat(file_o,num);
+	printf("%s\n", file_o);
+
+	
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
 	fp=fopen(file_o,"w");
 	maxi=input[0][0];
@@ -136,12 +143,14 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	printf("printing input\n");
 	for(i=0;i<=row+1;i++)
 	{
-		for(j=0;j<=column+1;j++)
-			printf("%f ",input_new[i][j]);
-		printf("\n");
+		for(j=0;j<=column+1;j++){
+			
+		}
+			// printf("%f ",input_new[i][j]);
+		// printf("\n");
 	}
 
-	printf("\n\n\n");
+	// printf("\n\n\n");
 
 	printf("printing output\n");
 	for(i=0;i<row;i++)
@@ -247,13 +256,14 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	{
 		for(j=0;j<column;j++){
 			count++;
-		printf("%f %f %d\n ",output[i][j],predicted_output[i][j],iterations[count]);
+		//printf("%f %f %d\n ",output[i][j],predicted_output[i][j],iterations[count]);
 	}
-		printf("\n");
+		//printf("\n");
 	}
 	
 	//return(FinalWeight);
 	printf("printing final weights\n");
+	printf("%s\n", file_o);
 	for(i=0;i<row*column;i++)
 	{
 		for(j=0;j<20;j++)
@@ -518,11 +528,15 @@ int main(int argc, char *argv[])
 	int i,j,d,f;
 	printf("hello\n");
 	FILE *f1,*f2;
-	char *file2 = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
-	char *ext = "_im0.txt";
-	char *num = ITER - 48;
-	strcat(num,ext);
+	char file2[] = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
+	printf("%s\n", file2);
+	char ext[] = "_im0.txt";
+	char num[] = "1_im0.txt";
+	num[0] = ITER+48;
+	printf("%s\n", num);
+	
 	strcat(file2,num);
+	printf("%s\n", file2);
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
 	f2=fopen(file2,"r");
 	
@@ -531,7 +545,7 @@ int main(int argc, char *argv[])
 		for(j=0;j<column;j++)
 		{
 			fscanf(f1,"%d",&f);
-			printf("%d ",f);
+			// printf("%d ",f);
 			input[i][j]=f;
 		}
 	}
@@ -542,7 +556,7 @@ int main(int argc, char *argv[])
 		for(j=0;j<column;j++)
 		{
 			fscanf(f2,"%d",&d);
-			printf("%d ",d);
+			// printf("%d ",d);
 			output[i][j]=d;
 		}
 	}
@@ -551,6 +565,8 @@ int main(int argc, char *argv[])
 	fclose(f2);
 
 	CNN(input,output,row,column, ITER);
+	printf("printed\n");
+	return 0;
 	
 }
 		
@@ -656,3 +672,4 @@ float predict(float patch[3][3],float demo_wt[20])
 		sig=1/(1+(1/exp(sums1)))+bias1; //predicted output
 		return(sums1);
 }
+
