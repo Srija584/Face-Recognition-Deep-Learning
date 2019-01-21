@@ -19,26 +19,15 @@ void CNN(float input[row][column],int row,int column)
 	maxi,patch[3][3],input_new[row+2][column+2],w3[3],w2[4],bias1,p;
 	srand((unsigned)time(NULL));
 	FILE *fp,*fp1;
-	printf("ITER, ITER_SUB: %d %d\n", ITER, ITER_SUB);
-	char file2[] = "/home/srija/tensorflow/pie_output/models/weights_p";
-	printf("%s\n", file2);
-	char num[] = "1_45_0.txt";
-	num[0] = ITER+48;
-	printf("%s\n", num);
-	strcat(file2,num);
-	printf("%s\n", file2);
-	fp=fopen(file2,"r");
 
-	char file3[] = "/home/srija/tensorflow/pie_output/results/45/predicted_p";
-	printf("%s\n", file2);
-	char num2[] = "1_";
-	num2[0] = ITER + 48;
-	strcat(file3,num2);
-	char num3[] = "p1";
-	num3[1] = ITER_SUB+48;
-	strcat(file3,num3);
-	printf("%s\n", file3);
-	fp1=fopen(file3,"w");
+	char buffer[100];
+	sprintf(buffer,"/home/srija/tensorflow/pie_output/models/weights_p%d_45_0.txt",ITER );
+	fp=fopen(buffer,"r");
+
+	char buffer1[100];
+	sprintf(buffer1,"/home/srija/tensorflow/pie_output/results/45/predicted_p%d_p%d.txt",ITER, ITER_SUB );
+	fp1=fopen(buffer1,"w");
+
 	maxi=input[0][0];
 	for(i=0;i<row;i++)
 	for(j=0;j<column;j++)
@@ -441,17 +430,11 @@ int main(int argc, char *argv[])
 	printf("from prediction\n");
 	int output[row][column],i,j,d,f;
 
-	char file2[] = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
-	printf("%s\n", file2);
-	char num[] = "1_im45.txt";
-	num[0] = ITER+48;
-	printf("%s\n", num);
-	
-	strcat(file2,num);
-	printf("%s\n", file2);
+	char buffer[100];
+	sprintf(buffer,"/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/exp/p%d_im45.txt",ITER );
 
 	FILE *f1,*f2;
-	f1=fopen(file2,"r");
+	f1=fopen(buffer,"r");
 	
 	for(i=0;i<row;i++)
 	{
