@@ -2,8 +2,11 @@
 #include<stdlib.h>
 #include<math.h>
 #include<time.h>
+#include<string.h>
 int row=80;
 int column=80;
+int ITER;
+int ITER_SUB;
 
 float *miniCNN(float patch[3][3],int p,float w1[3][4],float w2[4],float w3[3],float bias1);
 float max(float p[]);
@@ -16,8 +19,26 @@ void CNN(float input[row][column],int row,int column)
 	maxi,patch[3][3],input_new[row+2][column+2],w3[3],w2[4],bias1,p;
 	srand((unsigned)time(NULL));
 	FILE *fp,*fp1;
-	fp=fopen("/home/srija/tensorflow/pie_output/models/weights_p1_45_0.txt","r");
-	fp1=fopen("/home/srija/tensorflow/pie_output/results/predicted_p1_p1.txt","w");
+	printf("ITER, ITER_SUB: %d %d\n", ITER, ITER_SUB);
+	char file2[] = "/home/srija/tensorflow/pie_output/models/weights_p";
+	printf("%s\n", file2);
+	char num[] = "1_45_0.txt";
+	num[0] = ITER+48;
+	printf("%s\n", num);
+	strcat(file2,num);
+	printf("%s\n", file2);
+	fp=fopen(file2,"r");
+
+	char file3[] = "/home/srija/tensorflow/pie_output/results/45/predicted_p";
+	printf("%s\n", file2);
+	char num2[] = "1_";
+	num2[0] = ITER + 48;
+	strcat(file3,num2);
+	char num3[] = "p1";
+	num3[1] = ITER_SUB+48;
+	strcat(file3,num3);
+	printf("%s\n", file3);
+	fp1=fopen(file3,"w");
 	maxi=input[0][0];
 	for(i=0;i<row;i++)
 	for(j=0;j<column;j++)
@@ -93,8 +114,8 @@ void CNN(float input[row][column],int row,int column)
 			{
 				for(d=0;d<3;d++)
 					{
-						printf("c,d: %d %d\n",c,d);
-						printf("%f\n", input_new[k+c][l+d]);
+						// printf("c,d: %d %d\n",c,d);
+						// printf("%f\n", input_new[k+c][l+d]);
 						patch[c][d]=input_new[k+c][l+d];
 						
 					}
@@ -103,7 +124,7 @@ void CNN(float input[row][column],int row,int column)
 			for(we=0;we<20;we++)
 			{
 				fscanf(fp,"%f",&initial_weights[we]);
-				printf("%f\n",initial_weights[we]);
+				// printf("%f\n",initial_weights[we]);
 			}
 			int count_w=-1,c1,c2;
 			for(c1=0;c1<3;c1++)
@@ -135,7 +156,7 @@ void CNN(float input[row][column],int row,int column)
 			//F=miniCNN(patch,output[index1][index2],w1,w2,w3,bias1);
 			p=predict(patch,demo_wt);
 			predicted_output[i][j]=p;
-			printf("predicted=%f\n",p);
+			// printf("predicted=%f\n",p);
 		}
 	}
 	//free(F);
@@ -145,9 +166,9 @@ void CNN(float input[row][column],int row,int column)
 	{
 		for(j=0;j<column;j++){
 			count++;
-		printf("%f %d\n ",predicted_output[i][j],count);
+		// printf("%f %d\n ",predicted_output[i][j],count);
 	}
-		printf("\n");
+		// printf("\n");
 	}
 	
 	//return(FinalWeight);
@@ -264,7 +285,6 @@ float *miniCNN(float patch[3][3],int p,float w1[3][4],float w2[4],float w3[3],fl
 	for(j=0;j<4;j++){
 	printf("%f ",sum[j][i]);}
 	printf("\n");}
-
 	printf("\n");
 */
 		sums1=0;
@@ -354,9 +374,7 @@ float *miniCNN(float patch[3][3],int p,float w1[3][4],float w2[4],float w3[3],fl
 	/*printf("\n");
 	for(i=0;i<4;i++)
 	printf("%f ",w2[i]);
-
 	printf("\n");
-
 	for(i=0;i<3;i++)
 	printf("%f ",w3[i]);
 	printf("back propagation ends\n");*/
@@ -406,14 +424,34 @@ float max(float p[])
 	return m;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+	if (argc != 3) 
+        {
+        	printf("Wrong parameters. Usage: ./cnn_prediction [iteration number]\n");
+		return 1;
+	}
+        sscanf(argv[1], "%d", &ITER);
+		printf("ITER : %d\n", ITER);
+		sscanf(argv[2], "%d", &ITER_SUB);
+        printf("ITER_SUB : %d\n", ITER_SUB);
 	float input[row][column],t;
 	time_t tm;
 	srand((unsigned) time(&tm));
+	printf("from prediction\n");
 	int output[row][column],i,j,d,f;
+
+	char file2[] = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
+	printf("%s\n", file2);
+	char num[] = "1_im45.txt";
+	num[0] = ITER+48;
+	printf("%s\n", num);
+	
+	strcat(file2,num);
+	printf("%s\n", file2);
+
 	FILE *f1,*f2;
-	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p1_im45.txt","r");
+	f1=fopen(file2,"r");
 	
 	for(i=0;i<row;i++)
 	{
@@ -430,6 +468,7 @@ int main()
 	//fclose(f2);
 
 	CNN(input,row,column);
+	return 0;
 	
 }
 		
