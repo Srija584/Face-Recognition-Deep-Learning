@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import subprocess, sys
 
-num_persons = 9
+num_persons = 23
 
 make_process = subprocess.Popen("make", stderr=subprocess.STDOUT)
 print "Compiling......"
