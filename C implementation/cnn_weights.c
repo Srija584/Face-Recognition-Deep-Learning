@@ -19,7 +19,7 @@ void CNN(float input[row][column],float output[row][column],int row,int column, 
 	FILE *fp, *f1;
 	char *file_o = "/home/srija/tensorflow/pie_output/models/weights_p";
 	char *ext = "_45_0.txt";
-	char *num = (char)ITER;
+	char *num = ITER - 48;
 	strcat(num,ext);
 	strcat(file_o,num);
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
@@ -520,7 +520,7 @@ int main(int argc, char *argv[])
 	FILE *f1,*f2;
 	char *file2 = "/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/p";
 	char *ext = "_im0.txt";
-	char *num = (char)ITER;
+	char *num = ITER - 48;
 	strcat(num,ext);
 	strcat(file2,num);
 	f1=fopen("/media/srija/Seagate Backup Plus Drive/images/pie_jpg/experiments/temp_45.txt","r");
